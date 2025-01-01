@@ -1,26 +1,77 @@
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Typography,
+  BottomNavigation,
+  BottomNavigationAction,
+} from "@mui/material";
 import "../app/globals.css";
 
-// import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-// import { LocationOn } from "@mui/icons-material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Add } from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export default function Home() {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#1976d2",
-        height: 50,
-        width: "100",
-        position: "sticky",
-      }}
-    >
-      <Typography variant="h5" sx={{ color: "white" }}>
-        Tasks
-      </Typography>
-    </Box>
+    <>
+      <Box
+        id="top-nav-bar"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#1976d2",
+          height: 50,
+          width: "100",
+          position: "sticky",
+        }}
+      >
+        <Typography variant="h5" sx={{ color: "white" }}>
+          Tasks
+        </Typography>
+      </Box>
+      <BottomNavigation
+        showLabels
+        sx={{
+          width: "100%",
+          position: "fixed",
+          bottom: 0,
+          bgcolor: "#1976d2",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <BottomNavigationAction
+          label="Menu"
+          sx={{
+            "& .MuiBottomNavigationAction-label": {
+              color: "white",
+              fontSize: "0.90rem",
+            },
+          }}
+          icon={<MenuIcon sx={{ color: "white" }} />}
+        />
+        <BottomNavigationAction
+          label="Add"
+          sx={{
+            "& .MuiBottomNavigationAction-label": {
+              color: "white",
+              fontSize: "0.90rem",
+            },
+          }}
+          icon={<Add sx={{ color: "white" }} />}
+        />
+        <BottomNavigationAction
+          label="Sort"
+          sx={{
+            "& .MuiBottomNavigationAction-label": {
+              color: "white",
+              fontSize: "0.90rem",
+            },
+          }}
+          icon={<MoreHorizIcon sx={{ color: "white" }} />}
+        />
+      </BottomNavigation>
+    </>
   );
 }
 
