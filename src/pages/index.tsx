@@ -1,3 +1,4 @@
+import { Add } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -10,10 +11,10 @@ import {
 import "../app/globals.css";
 
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { Add } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { TkTextField } from "@/components/tkTextField";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -29,6 +30,7 @@ export default function Home() {
     const tasks = localStorage.getItem("Tasks");
 
     const newTaskObject = {
+      id: uuidv4(),
       taskName: task,
       description: description,
     };
