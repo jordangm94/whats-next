@@ -16,6 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { TkTextField } from "@/components/tkTextField";
 import { v4 as uuidv4 } from "uuid";
+import { TaskCard } from "@/components/taskCard";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -134,6 +135,12 @@ export default function Home() {
         <Typography variant="h5" sx={{ color: "white" }}>
           Tasks
         </Typography>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+        <TaskCard
+          taskTitle="Do laundry"
+          taskDescription="Testing the individual task card to see if it works"
+        ></TaskCard>
       </Box>
       <BottomNavigation
         showLabels
