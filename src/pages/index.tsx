@@ -7,6 +7,7 @@ import {
   Drawer,
   Stack,
   Button,
+  Tooltip,
 } from "@mui/material";
 import "../app/globals.css";
 
@@ -20,6 +21,7 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [task, setTask] = useState("");
   const [description, setDescription] = useState("");
+  const dateObject = new Date();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -33,6 +35,7 @@ export default function Home() {
       id: uuidv4(),
       taskName: task,
       description: description,
+      date: dateObject.toISOString(),
     };
 
     if (tasks) {
@@ -50,7 +53,7 @@ export default function Home() {
   const DrawerList = (
     <Box sx={{ width: "100%" }} role="presentation">
       <form onSubmit={handleSubmit}>
-        <Stack sx={{ px: 4, py: 2 }} spacing={2}>
+        <Stack sx={{ px: 4, py: 2 }} spacing={1}>
           <TkTextField
             label="Task Name"
             variant="standard"
@@ -69,6 +72,28 @@ export default function Home() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "4px",
+              pt: 1,
+              borderBottom: "1px solid white",
+            }}
+          >
+            <Typography>Date</Typography>
+            <Tooltip
+              title="This date is automatically set to today"
+              placement="top"
+            >
+              <Typography
+                sx={{
+                  fontStyle: "italic",
+                  color: "rgba(255, 255, 255, 0.7)",
+                }}
+              >{`${dateObject.toDateString()}`}</Typography>
+            </Tooltip>
+          </Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button
               onClick={() => {
@@ -79,7 +104,7 @@ export default function Home() {
                 bgcolor: "whitesmoke",
                 color: "#1976d2",
                 borderRadius: 4,
-                mt: 2,
+                mt: 3,
               }}
               variant="contained"
               type="submit"
