@@ -66,7 +66,6 @@ export default function Home() {
       ? JSON.parse(tasksFromLocalStorage)
       : [];
     setParsedTaskList(parsedTasks);
-    console.log("HELLO FROM THE PARSEDTASKLIST", parsedTaskList);
   }, []);
 
   const DrawerList = (
