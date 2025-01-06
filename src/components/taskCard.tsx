@@ -2,13 +2,15 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { RadioButtonUnchecked, RadioButtonChecked } from "@mui/icons-material";
 
 export type TaskCardProps = {
-  taskTitle: string;
-  taskDescription: string;
+  key: string;
+  title: string;
+  description: string;
 };
 
-export const TaskCard = ({ taskTitle, taskDescription }: TaskCardProps) => {
+export const TaskCard = ({ title, description, key }: TaskCardProps) => {
   return (
     <Box
+      key={key}
       sx={{
         display: "flex",
         alignItems: "center",
@@ -18,6 +20,7 @@ export const TaskCard = ({ taskTitle, taskDescription }: TaskCardProps) => {
         overflow: "hidden",
         bgcolor: "#1976d2",
         borderRadius: 3,
+        mb: 2,
       }}
     >
       <Checkbox
@@ -36,7 +39,7 @@ export const TaskCard = ({ taskTitle, taskDescription }: TaskCardProps) => {
         }}
       >
         <Typography sx={{ fontWeight: "bold", color: "white" }}>
-          {taskTitle}
+          {title}
         </Typography>
         <Typography
           sx={{
@@ -46,7 +49,7 @@ export const TaskCard = ({ taskTitle, taskDescription }: TaskCardProps) => {
             color: "white",
           }}
         >
-          {taskDescription}
+          {description}
         </Typography>
       </Box>
     </Box>

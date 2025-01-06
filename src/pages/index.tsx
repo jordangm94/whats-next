@@ -1,4 +1,4 @@
-import { Add } from "@mui/icons-material";
+import { Add, Task } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -13,7 +13,7 @@ import "../app/globals.css";
 
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TkTextField } from "@/components/tkTextField";
 import { v4 as uuidv4 } from "uuid";
 import { TaskCard } from "@/components/taskCard";
@@ -23,6 +23,13 @@ export default function Home() {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState("");
   const dateObject = new Date();
+  const [parsedTaskList, setParsedTaskList] = useState<Task[]>([]);
+
+  interface Task {
+    id: string;
+    title: string;
+    description: string;
+  }
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -34,7 +41,7 @@ export default function Home() {
 
     const newTaskObject = {
       id: uuidv4(),
-      taskName: task,
+      title: task,
       description: description,
       date: dateObject.toISOString(),
     };
@@ -42,14 +49,25 @@ export default function Home() {
     if (tasks) {
       const taskList = JSON.parse(tasks);
       taskList.push(newTaskObject);
-
       localStorage.setItem("Tasks", JSON.stringify(taskList));
+      setParsedTaskList((prev) => [...prev, newTaskObject]);
     } else {
       localStorage.setItem("Tasks", JSON.stringify([newTaskObject]));
+      setParsedTaskList([newTaskObject]);
     }
     setTask("");
     setDescription("");
   };
+
+  useEffect(() => {
+    const tasksFromLocalStorage = localStorage.getItem("Tasks");
+
+    const parsedTasks: Task[] = tasksFromLocalStorage
+      ? JSON.parse(tasksFromLocalStorage)
+      : [];
+    setParsedTaskList(parsedTasks);
+    console.log("HELLO FROM THE PARSEDTASKLIST", parsedTaskList);
+  }, []);
 
   const DrawerList = (
     <Box sx={{ width: "100%" }} role="presentation">
@@ -136,10 +154,27 @@ export default function Home() {
           Tasks
         </Typography>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: 2,
+        }}
+      >
+        {parsedTaskList &&
+          parsedTaskList.map((task) => (
+            <TaskCard
+              key={task.id}
+              title={task.title}
+              description={task.description}
+            />
+          ))}
         <TaskCard
-          taskTitle="Do laundry"
-          taskDescription="Testing the individual task card to see if it works"
+          key="02020202"
+          title="Do laundry"
+          description="Testing the individual task card to see if it works"
         ></TaskCard>
       </Box>
       <BottomNavigation
