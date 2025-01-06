@@ -29,6 +29,8 @@ export default function Home() {
     id: string;
     title: string;
     description: string;
+    date: string;
+    status: boolean;
   }
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -44,6 +46,7 @@ export default function Home() {
       title: task,
       description: description,
       date: dateObject.toISOString(),
+      status: false,
     };
 
     if (tasks) {
@@ -57,6 +60,14 @@ export default function Home() {
     }
     setTask("");
     setDescription("");
+  };
+
+  const filterTaskByStatus = (taskList: Task[], status: boolean = false) => {
+    if (!Array.isArray(taskList)) {
+      console.warn("Invalid taskList provided, returning empty array.");
+      return [];
+    }
+    return taskList.filter((task) => task.status === status);
   };
 
   useEffect(() => {
@@ -163,7 +174,7 @@ export default function Home() {
         }}
       >
         {parsedTaskList &&
-          parsedTaskList.map((task) => (
+          filterTaskByStatus(parsedTaskList, false).map((task) => (
             <TaskCard
               key={task.id}
               title={task.title}
