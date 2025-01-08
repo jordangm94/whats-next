@@ -5,9 +5,15 @@ export type TaskCardProps = {
   key: string;
   title: string;
   description: string;
+  onClick?: () => void;
 };
 
-export const TaskCard = ({ title, description, key }: TaskCardProps) => {
+export const TaskCard = ({
+  title,
+  description,
+  key,
+  onClick,
+}: TaskCardProps) => {
   return (
     <Box
       key={key}
@@ -28,6 +34,7 @@ export const TaskCard = ({ title, description, key }: TaskCardProps) => {
         checkedIcon={<RadioButtonChecked />}
         color="default"
         sx={{ color: "white" }}
+        onClick={onClick}
       />
       <Box
         sx={{

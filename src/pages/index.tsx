@@ -70,6 +70,23 @@ export default function Home() {
     return taskList.filter((task) => task.status === status);
   };
 
+  const markTaskAsComplete = (id: string) => {
+    const tasks = localStorage.getItem("Tasks");
+
+    if (tasks) {
+      const taskList = JSON.parse(tasks);
+
+      taskList.map((task: Task) => {
+        if (task.id === id) {
+          task.status = true;
+        }
+      });
+
+      localStorage.setItem("Tasks", JSON.stringify(taskList));
+      setParsedTaskList(taskList);
+    }
+  };
+
   useEffect(() => {
     const tasksFromLocalStorage = localStorage.getItem("Tasks");
 
@@ -179,6 +196,9 @@ export default function Home() {
               key={task.id}
               title={task.title}
               description={task.description}
+              onClick={() => {
+                markTaskAsComplete(task.id);
+              }}
             />
           ))}
         <TaskCard
