@@ -1,4 +1,4 @@
-import { Add } from "@mui/icons-material";
+import { Add, ExpandMore } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -8,6 +8,8 @@ import {
   Stack,
   Button,
   Tooltip,
+  Accordion,
+  AccordionSummary,
 } from "@mui/material";
 import "../app/globals.css";
 
@@ -17,6 +19,7 @@ import { useEffect, useState } from "react";
 import { TkTextField } from "@/components/tkTextField";
 import { v4 as uuidv4 } from "uuid";
 import { TaskCard } from "@/components/taskCard";
+import { CompletedTaskCard } from "@/components/completedTaskCard";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -62,12 +65,15 @@ export default function Home() {
     setDescription("");
   };
 
-  const filterTaskByStatus = (taskList: Task[], status: boolean = false) => {
+  const filterTasksByStatusAndSort = (
+    taskList: Task[],
+    status: boolean = false
+  ) => {
     if (!Array.isArray(taskList)) {
       console.warn("Invalid taskList provided, returning empty array.");
       return [];
     }
-    return taskList.filter((task) => task.status === status);
+    return taskList.filter((task) => task.status === status).reverse();
   };
 
   const markTaskAsComplete = (id: string) => {
@@ -191,7 +197,7 @@ export default function Home() {
         }}
       >
         {parsedTaskList &&
-          filterTaskByStatus(parsedTaskList, false).map((task) => (
+          filterTasksByStatusAndSort(parsedTaskList, false).map((task) => (
             <TaskCard
               key={task.id}
               title={task.title}
@@ -201,11 +207,35 @@ export default function Home() {
               }}
             />
           ))}
-        <TaskCard
-          key="02020202"
-          title="Do laundry"
-          description="Testing the individual task card to see if it works"
-        ></TaskCard>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Accordion
+          sx={{
+            width: "360px",
+            boxShadow: "none",
+            borderTop: "solid lightgrey 1px",
+            pb: "56px",
+          }}
+          defaultExpanded={
+            filterTasksByStatusAndSort(parsedTaskList, false).length > 0
+              ? false
+              : true
+          }
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography component="span">{`Completed Tasks (${
+              filterTasksByStatusAndSort(parsedTaskList, true).length
+            })`}</Typography>
+          </AccordionSummary>
+          {parsedTaskList &&
+            filterTasksByStatusAndSort(parsedTaskList, true).map((task) => (
+              <CompletedTaskCard key={task.id} title={task.title} />
+            ))}
+        </Accordion>
       </Box>
       <BottomNavigation
         showLabels

@@ -45,7 +45,15 @@ export const TaskCard = ({
           pl: 1,
         }}
       >
-        <Typography sx={{ fontWeight: "bold", color: "white" }}>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
           {title}
         </Typography>
         <Typography
