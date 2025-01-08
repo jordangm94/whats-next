@@ -23,7 +23,7 @@ import { CompletedTaskCard } from "@/components/completedTaskCard";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
-  const [task, setTask] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const dateObject = new Date();
   const [parsedTaskList, setParsedTaskList] = useState<Task[]>([]);
@@ -46,7 +46,7 @@ export default function Home() {
 
     const newTaskObject = {
       id: uuidv4(),
-      title: task,
+      title: title,
       description: description,
       date: dateObject.toISOString(),
       status: false,
@@ -61,7 +61,7 @@ export default function Home() {
       localStorage.setItem("Tasks", JSON.stringify([newTaskObject]));
       setParsedTaskList([newTaskObject]);
     }
-    setTask("");
+    setTitle("");
     setDescription("");
   };
 
@@ -111,8 +111,8 @@ export default function Home() {
             variant="standard"
             placeholder="Enter the task name"
             multiline={false}
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <TkTextField
             label="Description"
