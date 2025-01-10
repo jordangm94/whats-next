@@ -107,9 +107,9 @@ export default function Home() {
       <form onSubmit={handleSubmit}>
         <Stack sx={{ px: 4, py: 2 }} spacing={1}>
           <TkTextField
-            label="Task Name"
+            label="Task Title"
             variant="standard"
-            placeholder="Enter the task name"
+            placeholder="Enter the task title"
             multiline={false}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -148,6 +148,7 @@ export default function Home() {
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button
+              disabled={!title ? true : false}
               onClick={() => {
                 setOpen(false);
               }}
