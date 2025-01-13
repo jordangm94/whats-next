@@ -76,7 +76,7 @@ export default function Home() {
     return taskList.filter((task) => task.status === status).reverse();
   };
 
-  const markTaskAsComplete = (id: string) => {
+  const updateTaskStatus = (id: string, updatedStatus: boolean) => {
     const tasks = localStorage.getItem("Tasks");
 
     if (tasks) {
@@ -84,7 +84,7 @@ export default function Home() {
 
       taskList.map((task: Task) => {
         if (task.id === id) {
-          task.status = true;
+          task.status = updatedStatus;
         }
       });
 
@@ -204,7 +204,7 @@ export default function Home() {
               title={task.title}
               description={task.description}
               onClick={() => {
-                markTaskAsComplete(task.id);
+                updateTaskStatus(task.id, true);
               }}
             />
           ))}
@@ -234,7 +234,13 @@ export default function Home() {
           </AccordionSummary>
           {parsedTaskList &&
             filterTasksByStatusAndSort(parsedTaskList, true).map((task) => (
-              <CompletedTaskCard key={task.id} title={task.title} />
+              <CompletedTaskCard
+                key={task.id}
+                title={task.title}
+                onClick={() => {
+                  updateTaskStatus(task.id, false);
+                }}
+              />
             ))}
         </Accordion>
       </Box>
