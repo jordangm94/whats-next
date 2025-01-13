@@ -4,10 +4,6 @@ import {
   Typography,
   BottomNavigation,
   BottomNavigationAction,
-  Drawer,
-  Stack,
-  Button,
-  Tooltip,
   Accordion,
   AccordionSummary,
 } from "@mui/material";
@@ -16,10 +12,10 @@ import "../app/globals.css";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
-import { TkTextField } from "@/components/tkTextField";
 import { v4 as uuidv4 } from "uuid";
 import { TaskCard } from "@/components/taskCard";
 import { CompletedTaskCard } from "@/components/completedTaskCard";
+import { AddTaskDrawer } from "@/components/addTaskDrawer";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -101,74 +97,6 @@ export default function Home() {
       : [];
     setParsedTaskList(parsedTasks);
   }, []);
-
-  const DrawerList = (
-    <Box sx={{ width: "100%" }} role="presentation">
-      <form onSubmit={handleSubmit}>
-        <Stack sx={{ px: 4, py: 2 }} spacing={1}>
-          <TkTextField
-            label="Task Title"
-            variant="standard"
-            placeholder="Enter the task title"
-            multiline={false}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TkTextField
-            label="Description"
-            variant="standard"
-            placeholder="Enter the task description"
-            multiline={true}
-            maxRows={3}
-            maxLength={500}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "4px",
-              pt: 1,
-              borderBottom: "1px solid white",
-            }}
-          >
-            <Typography>Date</Typography>
-            <Tooltip
-              title="This date is automatically set to today"
-              placement="top"
-            >
-              <Typography
-                sx={{
-                  fontStyle: "italic",
-                  color: "rgba(255, 255, 255, 0.7)",
-                }}
-              >{`${dateObject.toDateString()}`}</Typography>
-            </Tooltip>
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              disabled={!title ? true : false}
-              onClick={() => {
-                setOpen(false);
-              }}
-              sx={{
-                width: 170,
-                bgcolor: "whitesmoke",
-                color: "#1976d2",
-                borderRadius: 4,
-                mt: 3,
-              }}
-              variant="contained"
-              type="submit"
-            >
-              SAVE
-            </Button>
-          </Box>
-        </Stack>
-      </form>
-    </Box>
-  );
 
   return (
     <>
@@ -274,7 +202,7 @@ export default function Home() {
             },
           }}
           icon={<Add sx={{ color: "white" }} />}
-          onClick={() => setOpen(true)}
+          onClick={toggleDrawer(true)}
         />
         <BottomNavigationAction
           label="Sort"
@@ -287,23 +215,16 @@ export default function Home() {
           icon={<MoreHorizIcon sx={{ color: "white" }} />}
         />
       </BottomNavigation>
-      <Drawer
-        id="create-task-drawer"
-        PaperProps={{
-          sx: {
-            color: "white",
-            bgcolor: "#1976d2",
-            boxSizing: "border-box",
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          },
-        }}
+      <AddTaskDrawer
+        title={title}
+        setTitle={setTitle}
+        description={description}
+        setDescription={setDescription}
+        date={dateObject}
         open={open}
-        onClose={toggleDrawer(false)}
-        anchor="bottom"
-      >
-        {DrawerList}
-      </Drawer>
+        toggleDrawer={toggleDrawer}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 }
