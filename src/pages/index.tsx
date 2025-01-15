@@ -15,13 +15,14 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { TaskCard } from "@/components/taskCard";
 import { CompletedTaskCard } from "@/components/completedTaskCard";
-import { AddTaskDrawer } from "@/components/addTaskDrawer";
+import { TaskDrawer } from "@/components/taskDrawer";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<"add" | "edit">("add");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const dateObject = new Date();
+  const [date, setDate] = useState(new Date());
   const [parsedTaskList, setParsedTaskList] = useState<Task[]>([]);
 
   interface Task {
@@ -36,6 +37,24 @@ export default function Home() {
     setOpen(newOpen);
   };
 
+  const setDrawerMode = (mode: "add" | "edit", task?: Task) => () => {
+    setMode(mode);
+
+    if (mode === "add") {
+      setTitle("");
+      setDescription("");
+      setDate(new Date());
+    }
+
+    if (!task) {
+      console.error("Task is undefined in edit mode");
+    } else if (mode === "edit") {
+      setTitle(task?.title || "");
+      setDescription(task?.description || "");
+      setDate(new Date(task?.date) || new Date());
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const tasks = localStorage.getItem("Tasks");
@@ -44,7 +63,7 @@ export default function Home() {
       id: uuidv4(),
       title: title,
       description: description,
-      date: dateObject.toISOString(),
+      date: date.toISOString(),
       status: false,
     };
 
@@ -131,7 +150,12 @@ export default function Home() {
               key={task.id}
               title={task.title}
               description={task.description}
-              onClick={() => {
+              onCardClick={() => {
+                setDrawerMode("edit", task)();
+                toggleDrawer(true)();
+              }}
+              onCheckClick={(e) => {
+                e.stopPropagation();
                 updateTaskStatus(task.id, true);
               }}
             />
@@ -202,7 +226,10 @@ export default function Home() {
             },
           }}
           icon={<Add sx={{ color: "white" }} />}
-          onClick={toggleDrawer(true)}
+          onClick={() => {
+            setDrawerMode("add")();
+            toggleDrawer(true)();
+          }}
         />
         <BottomNavigationAction
           label="Sort"
@@ -215,12 +242,13 @@ export default function Home() {
           icon={<MoreHorizIcon sx={{ color: "white" }} />}
         />
       </BottomNavigation>
-      <AddTaskDrawer
+      <TaskDrawer
+        mode={mode}
         title={title}
         setTitle={setTitle}
         description={description}
         setDescription={setDescription}
-        date={dateObject}
+        date={date ? date : new Date()}
         open={open}
         toggleDrawer={toggleDrawer}
         handleSubmit={handleSubmit}

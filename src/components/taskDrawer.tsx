@@ -1,7 +1,8 @@
 import { Box, Button, Drawer, Stack, Tooltip, Typography } from "@mui/material";
 import { TkTextField } from "./tkTextField";
 
-export type AddTaskDrawerProps = {
+export type TaskDrawerProps = {
+  mode: "add" | "edit";
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   description: string;
@@ -12,7 +13,8 @@ export type AddTaskDrawerProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-export const AddTaskDrawer = ({
+export const TaskDrawer = ({
+  mode,
   title,
   setTitle,
   description,
@@ -21,27 +23,38 @@ export const AddTaskDrawer = ({
   open,
   toggleDrawer,
   handleSubmit,
-}: AddTaskDrawerProps) => {
+}: TaskDrawerProps) => {
+  console.log(
+    "Mode",
+    mode,
+    "title",
+    title,
+    "description",
+    description,
+    "date",
+    date
+  );
+
   const AddTaskDrawerContent = (
     <Box sx={{ width: "100%" }} role="presentation">
       <form onSubmit={handleSubmit}>
         <Stack sx={{ px: 4, py: 2 }} spacing={1}>
           <TkTextField
-            label="Task Title"
+            label={mode === "add" ? "Task Title" : "Edit Task Title"}
+            value={title}
             variant="standard"
             placeholder="Enter the task title"
             multiline={false}
-            value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <TkTextField
-            label="Description"
+            label={mode === "add" ? "Description" : "Edit Description"}
+            value={description}
             variant="standard"
             placeholder="Enter the task description"
             multiline={true}
             maxRows={3}
             maxLength={500}
-            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <Box

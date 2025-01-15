@@ -5,14 +5,16 @@ export type TaskCardProps = {
   key: string;
   title: string;
   description: string;
-  onClick?: () => void;
+  onCardClick?: () => void;
+  onCheckClick?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 export const TaskCard = ({
   title,
   description,
   key,
-  onClick,
+  onCardClick,
+  onCheckClick,
 }: TaskCardProps) => {
   return (
     <Box
@@ -28,13 +30,14 @@ export const TaskCard = ({
         borderRadius: 3,
         mb: 2,
       }}
+      onClick={onCardClick}
     >
       <Checkbox
         icon={<RadioButtonUnchecked />}
         checkedIcon={<RadioButtonChecked />}
         color="default"
         sx={{ color: "white" }}
-        onClick={onClick}
+        onClick={onCheckClick}
       />
       <Box
         sx={{
