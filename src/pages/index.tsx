@@ -44,11 +44,11 @@ export default function Home() {
       setTitle("");
       setDescription("");
       setDate(new Date());
-    }
-
-    if (!task) {
-      console.error("Task is undefined in edit mode");
     } else if (mode === "edit") {
+      if (!task) {
+        console.error("Task is undefined in edit mode");
+        return;
+      }
       setTitle(task?.title || "");
       setDescription(task?.description || "");
       setDate(new Date(task?.date) || new Date());
