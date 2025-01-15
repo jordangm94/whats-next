@@ -24,17 +24,6 @@ export const TaskDrawer = ({
   toggleDrawer,
   handleSubmit,
 }: TaskDrawerProps) => {
-  console.log(
-    "Mode",
-    mode,
-    "title",
-    title,
-    "description",
-    description,
-    "date",
-    date
-  );
-
   const AddTaskDrawerContent = (
     <Box sx={{ width: "100%" }} role="presentation">
       <form onSubmit={handleSubmit}>
