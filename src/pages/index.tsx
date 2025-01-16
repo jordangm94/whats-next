@@ -20,6 +20,7 @@ import { TaskDrawer } from "@/components/taskDrawer";
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
+  const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
@@ -49,33 +50,67 @@ export default function Home() {
         console.error("Task is undefined in edit mode");
         return;
       }
+      setId(task?.id || "");
       setTitle(task?.title || "");
       setDescription(task?.description || "");
       setDate(new Date(task?.date) || new Date());
     }
   };
 
-  const handleSubmit = (e) => {
+  const editExistingTask = (taskList: [Task]) => {
+    const taskToEdit = taskList.find((task: Task) => task.id === id);
+
+    if (taskToEdit) {
+      taskToEdit.title = title;
+      taskToEdit.description = description;
+
+      localStorage.setItem("Tasks", JSON.stringify(taskList));
+
+      setParsedTaskList(taskList);
+    }
+  };
+
+  const addTaskToExistingTaskList = (taskList: [Task], newTaskObject: Task) => {
+    taskList.push(newTaskObject);
+    localStorage.setItem("Tasks", JSON.stringify(taskList));
+    setParsedTaskList((prev) => [...prev, newTaskObject]);
+  };
+
+  const createNewTaskList = (newTaskObject: Task) => {
+    localStorage.setItem("Tasks", JSON.stringify([newTaskObject]));
+    setParsedTaskList([newTaskObject]);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const tasks = localStorage.getItem("Tasks");
+    const taskList = tasks ? JSON.parse(tasks) : [];
 
-    const newTaskObject = {
-      id: uuidv4(),
-      title: title,
-      description: description,
-      date: date.toISOString(),
-      status: false,
-    };
-
-    if (tasks) {
-      const taskList = JSON.parse(tasks);
-      taskList.push(newTaskObject);
-      localStorage.setItem("Tasks", JSON.stringify(taskList));
-      setParsedTaskList((prev) => [...prev, newTaskObject]);
-    } else {
-      localStorage.setItem("Tasks", JSON.stringify([newTaskObject]));
-      setParsedTaskList([newTaskObject]);
+    if (mode === "edit") {
+      if (taskList.length > 0) {
+        editExistingTask(taskList);
+      } else {
+        console.warn("No tasks available to edit");
+      }
     }
+
+    if (mode === "add") {
+      const newTaskObject = {
+        id: uuidv4(),
+        title: title,
+        description: description,
+        date: date.toISOString(),
+        status: false,
+      };
+
+      if (taskList.length > 0) {
+        addTaskToExistingTaskList(taskList, newTaskObject);
+      } else {
+        createNewTaskList(newTaskObject);
+      }
+    }
+
+    setId("");
     setTitle("");
     setDescription("");
   };
