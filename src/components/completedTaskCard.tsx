@@ -4,13 +4,15 @@ import { Check, Restore } from "@mui/icons-material";
 export type CompletedTaskCardProps = {
   key: string;
   title: string;
-  onClick: () => void;
+  onRestoreClick: (e: React.MouseEvent<SVGElement>) => void;
+  onCardClick: () => void;
 };
 
 export const CompletedTaskCard = ({
   key,
   title,
-  onClick,
+  onRestoreClick,
+  onCardClick,
 }: CompletedTaskCardProps) => {
   return (
     <Box
@@ -28,6 +30,7 @@ export const CompletedTaskCard = ({
         borderRadius: 3,
         mb: 2,
       }}
+      onClick={onCardClick}
     >
       <Box sx={{ display: "flex", width: "280px" }}>
         <Check sx={{ color: "white", ml: 1 }} />
@@ -62,7 +65,7 @@ export const CompletedTaskCard = ({
             },
           }}
         >
-          <Restore sx={{ color: "white" }} onClick={onClick} />
+          <Restore sx={{ color: "white" }} onClick={onRestoreClick} />
         </Tooltip>
       </Box>
     </Box>

@@ -224,7 +224,12 @@ export default function Home() {
               <CompletedTaskCard
                 key={task.id}
                 title={task.title}
-                onClick={() => {
+                onCardClick={() => {
+                  setDrawerMode("edit", task)();
+                  toggleDrawer(true)();
+                }}
+                onRestoreClick={(e) => {
+                  e.stopPropagation();
                   updateTaskStatus(task.id, false);
                 }}
               />
