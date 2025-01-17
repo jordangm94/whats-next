@@ -4,15 +4,17 @@ import { Check, Delete, Restore } from "@mui/icons-material";
 export type CompletedTaskCardProps = {
   key: string;
   title: string;
-  onRestoreClick: (e: React.MouseEvent<SVGElement>) => void;
   onCardClick: () => void;
+  onDeleteClick: (e: React.MouseEvent<SVGElement>) => void;
+  onRestoreClick: (e: React.MouseEvent<SVGElement>) => void;
 };
 
 export const CompletedTaskCard = ({
   key,
   title,
-  onRestoreClick,
   onCardClick,
+  onDeleteClick,
+  onRestoreClick,
 }: CompletedTaskCardProps) => {
   return (
     <Box
@@ -84,7 +86,7 @@ export const CompletedTaskCard = ({
             },
           }}
         >
-          <Delete sx={{ color: "white" }} />
+          <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
         </Tooltip>
       </Box>
     </Box>

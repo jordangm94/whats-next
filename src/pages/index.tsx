@@ -274,6 +274,11 @@ export default function Home() {
                   setDrawerMode("edit", task)();
                   toggleDrawer(true)();
                 }}
+                onDeleteClick={(e) => {
+                  e.stopPropagation();
+                  setId(task.id);
+                  toggleDialogue(true)();
+                }}
                 onRestoreClick={(e) => {
                   e.stopPropagation();
                   updateTaskStatus(task.id, false);
