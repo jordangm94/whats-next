@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   BottomNavigation,
-  BottomNavigationAction,
   Accordion,
   AccordionSummary,
   Dialog,
@@ -13,11 +12,10 @@ import {
   Button,
   DialogActions,
   Slide,
+  Fab,
 } from "@mui/material";
 import "../app/globals.css";
 
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import MenuIcon from "@mui/icons-material/Menu";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { TaskCard } from "@/components/taskCard";
@@ -202,13 +200,25 @@ export default function Home() {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#1976d2",
-          height: 50,
-          width: "100",
-          position: "sticky",
+          height: 56,
+          width: "100%",
+          position: "fixed",
+          top: 0,
+          zIndex: 1000,
         }}
       >
-        <Typography variant="h5" sx={{ color: "white" }}>
-          Tasks
+        <Typography variant="h5" sx={{ color: "white", mr: 1 }}>
+          {"What's"}
+        </Typography>
+        <Typography
+          variant="h5"
+          sx={{
+            color: "white",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: 500,
+          }}
+        >
+          NEXT
         </Typography>
       </Box>
       <Box
@@ -261,7 +271,7 @@ export default function Home() {
             aria-controls="panel1-content"
             id="panel1-header"
           >
-            <Typography component="span">{`Completed Tasks (${
+            <Typography component="span">{`Completed (${
               filterTasksByStatusAndSort(parsedTaskList, true).length
             })`}</Typography>
           </AccordionSummary>
@@ -298,40 +308,30 @@ export default function Home() {
           justifyContent: "center",
         }}
       >
-        <BottomNavigationAction
-          label="Menu"
+        <Fab
+          color="primary"
           sx={{
-            "& .MuiBottomNavigationAction-label": {
-              color: "white",
-              fontSize: "0.90rem",
+            position: "absolute",
+            bottom: "20px",
+            zIndex: 1,
+            bgcolor: "white",
+            color: "#1976d2",
+            "&:hover": {
+              bgcolor: "#e0e0e0",
             },
           }}
-          icon={<MenuIcon sx={{ color: "white" }} />}
-        />
-        <BottomNavigationAction
-          label="Add"
-          sx={{
-            "& .MuiBottomNavigationAction-label": {
-              color: "white",
-              fontSize: "0.90rem",
-            },
-          }}
-          icon={<Add sx={{ color: "white" }} />}
           onClick={() => {
             setDrawerMode("add")();
             toggleDrawer(true)();
           }}
-        />
-        <BottomNavigationAction
-          label="Sort"
-          sx={{
-            "& .MuiBottomNavigationAction-label": {
-              color: "white",
-              fontSize: "0.90rem",
-            },
-          }}
-          icon={<MoreHorizIcon sx={{ color: "white" }} />}
-        />
+        >
+          <Add
+            onClick={() => {
+              setDrawerMode("add")();
+              toggleDrawer(true)();
+            }}
+          />
+        </Fab>
       </BottomNavigation>
       <TaskDrawer
         mode={mode}
