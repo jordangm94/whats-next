@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography } from "@mui/material";
+import { Box, Checkbox, Tooltip, Typography } from "@mui/material";
 import {
   RadioButtonUnchecked,
   RadioButtonChecked,
@@ -76,7 +76,25 @@ export const TaskCard = ({
           {description}
         </Typography>
       </Box>
-      <Delete onClick={onDeleteClick} sx={{ color: "white" }} />
+      <Tooltip
+        title="Delete"
+        placement="top"
+        disableInteractive
+        slotProps={{
+          popper: {
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [3, -10],
+                },
+              },
+            ],
+          },
+        }}
+      >
+        <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
+      </Tooltip>
     </Box>
   );
 };
