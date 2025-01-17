@@ -6,19 +6,37 @@ import {
   BottomNavigationAction,
   Accordion,
   AccordionSummary,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  Button,
+  DialogActions,
+  Slide,
 } from "@mui/material";
 import "../app/globals.css";
 
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { TaskCard } from "@/components/taskCard";
 import { CompletedTaskCard } from "@/components/completedTaskCard";
 import { TaskDrawer } from "@/components/taskDrawer";
+import { TransitionProps } from "@mui/material/transitions";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function Home() {
-  const [open, setOpen] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDialogue, setOpenDialogue] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
@@ -34,8 +52,12 @@ export default function Home() {
     status: boolean;
   }
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
+  const toggleDrawer = (open: boolean) => () => {
+    setOpenDrawer(open);
+  };
+
+  const toggleDialogue = (open: boolean) => () => {
+    setOpenDialogue(open);
   };
 
   const setDrawerMode = (mode: "add" | "edit", task?: Task) => () => {
@@ -193,6 +215,10 @@ export default function Home() {
                 e.stopPropagation();
                 updateTaskStatus(task.id, true);
               }}
+              onDeleteClick={(e) => {
+                e.stopPropagation();
+                toggleDialogue(true)();
+              }}
             />
           ))}
       </Box>
@@ -289,10 +315,35 @@ export default function Home() {
         description={description}
         setDescription={setDescription}
         date={date ? date : new Date()}
-        open={open}
+        open={openDrawer}
         toggleDrawer={toggleDrawer}
         handleSubmit={handleSubmit}
       />
+      <Dialog
+        PaperProps={{
+          sx: {
+            bgcolor: "#1976d2",
+            color: "white",
+          },
+        }}
+        open={openDialogue}
+        onClose={toggleDialogue(false)}
+        TransitionComponent={Transition}
+      >
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ color: "white" }}>
+            Are you sure you want to delete this task? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button sx={{ color: "white" }} onClick={toggleDialogue(false)}>
+            Cancel
+          </Button>
+          <Button sx={{ color: "#ff4c4c", fontWeight: "bold" }}>Delete</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

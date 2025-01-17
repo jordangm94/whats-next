@@ -1,5 +1,5 @@
 import { Box, Tooltip, Typography } from "@mui/material";
-import { Check, Restore } from "@mui/icons-material";
+import { Check, Delete, Restore } from "@mui/icons-material";
 
 export type CompletedTaskCardProps = {
   key: string;
@@ -47,7 +47,7 @@ export const CompletedTaskCard = ({
           {title}
         </Typography>
       </Box>
-      <Box sx={{ pr: 3 }}>
+      <Box sx={{ display: "flex", pr: 2, gap: 1 }}>
         <Tooltip
           title="Restore"
           placement="top"
@@ -66,6 +66,25 @@ export const CompletedTaskCard = ({
           }}
         >
           <Restore sx={{ color: "white" }} onClick={onRestoreClick} />
+        </Tooltip>
+        <Tooltip
+          title="Delete"
+          placement="top"
+          disableInteractive
+          slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: "offset",
+                  options: {
+                    offset: [3, -10],
+                  },
+                },
+              ],
+            },
+          }}
+        >
+          <Delete sx={{ color: "white" }} />
         </Tooltip>
       </Box>
     </Box>

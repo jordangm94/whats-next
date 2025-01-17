@@ -1,12 +1,17 @@
 import { Box, Checkbox, Typography } from "@mui/material";
-import { RadioButtonUnchecked, RadioButtonChecked } from "@mui/icons-material";
+import {
+  RadioButtonUnchecked,
+  RadioButtonChecked,
+  Delete,
+} from "@mui/icons-material";
 
 export type TaskCardProps = {
   key: string;
   title: string;
   description: string;
-  onCardClick?: () => void;
+  onCardClick: () => void;
   onCheckClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  onDeleteClick: (e: React.MouseEvent<SVGElement>) => void;
 };
 
 export const TaskCard = ({
@@ -15,6 +20,7 @@ export const TaskCard = ({
   key,
   onCardClick,
   onCheckClick,
+  onDeleteClick,
 }: TaskCardProps) => {
   return (
     <Box
@@ -22,7 +28,7 @@ export const TaskCard = ({
       sx={{
         display: "flex",
         alignItems: "center",
-        pl: 1,
+        px: 1,
         height: 85,
         width: "350px",
         overflow: "hidden",
@@ -42,10 +48,10 @@ export const TaskCard = ({
       <Box
         sx={{
           height: "50px",
-          width: "260px",
+          width: "250px",
           display: "flex",
           flexDirection: "column",
-          pl: 1,
+          px: 1,
         }}
       >
         <Typography
@@ -70,6 +76,7 @@ export const TaskCard = ({
           {description}
         </Typography>
       </Box>
+      <Delete onClick={onDeleteClick} sx={{ color: "white" }} />
     </Box>
   );
 };
