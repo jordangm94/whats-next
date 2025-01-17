@@ -103,6 +103,25 @@ export default function Home() {
     setParsedTaskList([newTaskObject]);
   };
 
+  const handleDelete = (id: string) => {
+    const tasks = localStorage.getItem("Tasks");
+    const taskList = tasks ? JSON.parse(tasks) : [];
+
+    if (!id) {
+      console.warn("No task ID was provided for deletion");
+    }
+
+    if (taskList.length > 0) {
+      const taskListAfterTaskDeleted = taskList.filter(
+        (task: Task) => task.id !== id
+      );
+      localStorage.setItem("Tasks", JSON.stringify(taskListAfterTaskDeleted));
+      setParsedTaskList(taskListAfterTaskDeleted);
+    }
+    setId("");
+    toggleDialogue(false)();
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const tasks = localStorage.getItem("Tasks");
@@ -217,6 +236,7 @@ export default function Home() {
               }}
               onDeleteClick={(e) => {
                 e.stopPropagation();
+                setId(task.id);
                 toggleDialogue(true)();
               }}
             />
@@ -341,7 +361,12 @@ export default function Home() {
           <Button sx={{ color: "white" }} onClick={toggleDialogue(false)}>
             Cancel
           </Button>
-          <Button sx={{ color: "#ff4c4c", fontWeight: "bold" }}>Delete</Button>
+          <Button
+            sx={{ color: "#ff4c4c", fontWeight: "bold" }}
+            onClick={() => handleDelete(id)}
+          >
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </>
