@@ -50,9 +50,13 @@ export const TaskCard = ({
         sx={{
           height: "50px",
           width: "250px",
+          "@media (max-width: 389px)": {
+            width: "75%",
+          },
           display: "flex",
           flexDirection: "column",
           px: 1,
+          overflow: "auto",
         }}
       >
         <Typography

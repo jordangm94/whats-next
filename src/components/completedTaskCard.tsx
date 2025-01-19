@@ -26,7 +26,7 @@ export const CompletedTaskCard = ({
         justifyContent: "space-between",
         pl: 1,
         height: 60,
-        width: "100%",
+        maxWidth: "100%",
         overflow: "hidden",
         bgcolor: "#90caf9",
         borderRadius: 3,
