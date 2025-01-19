@@ -42,7 +42,7 @@ export const TaskDrawer = ({
             variant="standard"
             placeholder="Enter the task description"
             multiline={true}
-            maxRows={3}
+            maxRows={11}
             maxLength={500}
             onChange={(e) => setDescription(e.target.value)}
           />
