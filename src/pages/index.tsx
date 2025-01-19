@@ -255,7 +255,8 @@ export default function Home() {
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Accordion
           sx={{
-            width: "360px",
+            maxWidth: "360px",
+            width: "90%",
             boxShadow: "none",
             borderTop: "solid lightgrey 1px",
             pb: "56px",
