@@ -6,7 +6,7 @@ import {
 } from "@mui/icons-material";
 
 export type TaskCardProps = {
-  key: string;
+  id: string;
   title: string;
   description: string;
   onCardClick: () => void;
@@ -15,16 +15,16 @@ export type TaskCardProps = {
 };
 
 export const TaskCard = ({
+  id,
   title,
   description,
-  key,
   onCardClick,
   onCheckClick,
   onDeleteClick,
 }: TaskCardProps) => {
   return (
     <Box
-      key={key}
+      key={id}
       sx={{
         display: "flex",
         alignItems: "center",

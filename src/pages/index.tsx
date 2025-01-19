@@ -234,6 +234,7 @@ export default function Home() {
           filterTasksByStatusAndSort(parsedTaskList, false).map((task) => (
             <TaskCard
               key={task.id}
+              id={task.id}
               title={task.title}
               description={task.description}
               onCardClick={() => {
@@ -280,6 +281,7 @@ export default function Home() {
             filterTasksByStatusAndSort(parsedTaskList, true).map((task) => (
               <CompletedTaskCard
                 key={task.id}
+                id={task.id}
                 title={task.title}
                 onCardClick={() => {
                   setDrawerMode("edit", task)();

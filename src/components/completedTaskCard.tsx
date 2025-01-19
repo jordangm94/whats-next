@@ -2,7 +2,7 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import { Check, Delete, Restore } from "@mui/icons-material";
 
 export type CompletedTaskCardProps = {
-  key: string;
+  id: string;
   title: string;
   onCardClick: () => void;
   onDeleteClick: (e: React.MouseEvent<SVGElement>) => void;
@@ -10,7 +10,7 @@ export type CompletedTaskCardProps = {
 };
 
 export const CompletedTaskCard = ({
-  key,
+  id,
   title,
   onCardClick,
   onDeleteClick,
@@ -18,7 +18,7 @@ export const CompletedTaskCard = ({
 }: CompletedTaskCardProps) => {
   return (
     <Box
-      key={key}
+      key={id}
       sx={{
         display: "flex",
         flexDirection: "row",
