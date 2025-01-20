@@ -300,10 +300,10 @@ export default function Home() {
             ))}
         </Accordion>
       </Box>
-      <BottomNavigation
-        showLabels
+      <Box
         sx={{
           width: "100%",
+          height: 56,
           position: "fixed",
           bottom: 0,
           bgcolor: "#1976d2",
@@ -335,7 +335,7 @@ export default function Home() {
             }}
           />
         </Fab>
-      </BottomNavigation>
+      </Box>
       <TaskDrawer
         mode={mode}
         title={title}
