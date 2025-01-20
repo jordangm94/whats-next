@@ -2,7 +2,6 @@ import { Add, ExpandMore } from "@mui/icons-material";
 import {
   Box,
   Typography,
-  BottomNavigation,
   Accordion,
   AccordionSummary,
   Dialog,
@@ -35,6 +34,8 @@ const Transition = React.forwardRef(function Transition(
 export default function Home() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openDialogue, setOpenDialogue] = useState(false);
+  const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
+
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
@@ -255,6 +256,8 @@ export default function Home() {
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Accordion
+          expanded={isAccordionExpanded}
+          onChange={() => setIsAccordionExpanded((prev) => !prev)}
           sx={{
             maxWidth: "360px",
             width: "90%",
@@ -262,11 +265,6 @@ export default function Home() {
             borderTop: "solid lightgrey 1px",
             pb: "56px",
           }}
-          defaultExpanded={
-            filterTasksByStatusAndSort(parsedTaskList, false).length > 0
-              ? false
-              : true
-          }
         >
           <AccordionSummary
             expandIcon={<ExpandMore />}
