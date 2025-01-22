@@ -228,7 +228,7 @@ export default function Home() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          mt: 2,
+          mt: "72px",
         }}
       >
         {parsedTaskList &&
