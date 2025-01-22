@@ -1,7 +1,8 @@
 import { TextFieldProps, TextField } from "@mui/material";
+import { SxProps } from "@mui/material";
 
 export type TkTextFieldProps = TextFieldProps & {
-  sx?: any;
+  sx?: SxProps;
   label?: string;
   variant?: string;
   placeholder: string;
