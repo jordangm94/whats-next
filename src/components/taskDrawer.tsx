@@ -1,4 +1,12 @@
-import { Box, Button, Drawer, Stack, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  styled,
+  SwipeableDrawer,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { TkTextField } from "./tkTextField";
 
 export type TaskDrawerProps = {
@@ -12,6 +20,17 @@ export type TaskDrawerProps = {
   toggleDrawer: (open: boolean) => () => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
+
+const Puller = styled("div")({
+  width: 30,
+  height: 6,
+  backgroundColor: "#1565c0",
+  borderRadius: 3,
+  position: "absolute",
+  top: 8,
+  left: "calc(50% - 15px)",
+  cursor: "pointer",
+});
 
 export const TaskDrawer = ({
   mode,
@@ -27,6 +46,7 @@ export const TaskDrawer = ({
   const AddTaskDrawerContent = (
     <Box sx={{ width: "100%" }} role="presentation">
       <form onSubmit={handleSubmit}>
+        <Puller onClick={() => toggleDrawer(false)()} />
         <Stack sx={{ px: 4, py: 2 }} spacing={1}>
           <TkTextField
             label={mode === "add" ? "Task Title" : "Edit Task Title"}
@@ -91,7 +111,7 @@ export const TaskDrawer = ({
   );
 
   return (
-    <Drawer
+    <SwipeableDrawer
       id="create-task-drawer"
       PaperProps={{
         sx: {
@@ -103,10 +123,11 @@ export const TaskDrawer = ({
         },
       }}
       open={open}
+      onOpen={toggleDrawer(true)}
       onClose={toggleDrawer(false)}
       anchor="bottom"
     >
       {AddTaskDrawerContent}
-    </Drawer>
+    </SwipeableDrawer>
   );
 };
