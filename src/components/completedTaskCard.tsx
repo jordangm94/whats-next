@@ -1,4 +1,4 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { Check, Delete, Restore } from "@mui/icons-material";
 
 export type CompletedTaskCardProps = {
@@ -16,6 +16,7 @@ export const CompletedTaskCard = ({
   onDeleteClick,
   onRestoreClick,
 }: CompletedTaskCardProps) => {
+  const isDesktop = useMediaQuery("(min-width:1025px)");
   return (
     <Box
       key={id}
@@ -50,44 +51,53 @@ export const CompletedTaskCard = ({
         </Typography>
       </Box>
       <Box sx={{ display: "flex", pr: 2, gap: 1 }}>
-        <Tooltip
-          title="Restore"
-          placement="top"
-          disableInteractive
-          slotProps={{
-            popper: {
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [3, -10],
-                  },
+        {isDesktop ? (
+          <>
+            <Tooltip
+              title="Restore"
+              placement="top"
+              disableInteractive
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [3, -10],
+                      },
+                    },
+                  ],
                 },
-              ],
-            },
-          }}
-        >
-          <Restore sx={{ color: "white" }} onClick={onRestoreClick} />
-        </Tooltip>
-        <Tooltip
-          title="Delete"
-          placement="top"
-          disableInteractive
-          slotProps={{
-            popper: {
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [3, -10],
-                  },
+              }}
+            >
+              <Restore sx={{ color: "white" }} onClick={onRestoreClick} />
+            </Tooltip>
+            <Tooltip
+              title="Delete"
+              placement="top"
+              disableInteractive
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [3, -10],
+                      },
+                    },
+                  ],
                 },
-              ],
-            },
-          }}
-        >
-          <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
-        </Tooltip>
+              }}
+            >
+              <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
+            </Tooltip>
+          </>
+        ) : (
+          <>
+            <Restore sx={{ color: "white" }} onClick={onRestoreClick} />
+            <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
+          </>
+        )}
       </Box>
     </Box>
   );

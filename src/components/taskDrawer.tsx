@@ -6,6 +6,7 @@ import {
   SwipeableDrawer,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { TkTextField } from "./tkTextField";
 
@@ -43,12 +44,16 @@ export const TaskDrawer = ({
   toggleDrawer,
   handleSubmit,
 }: TaskDrawerProps) => {
+  const isDesktop = useMediaQuery("(min-width:1025px)");
+
   const AddTaskDrawerContent = (
     <Box sx={{ width: "100%" }} role="presentation">
       <form onSubmit={handleSubmit}>
         <Puller onClick={() => toggleDrawer(false)()} />
         <Stack sx={{ px: 4, py: 2 }} spacing={1}>
           <TkTextField
+            id="task-title-text-field"
+            name="title"
             label={mode === "add" ? "Task Title" : "Edit Task Title"}
             value={title}
             variant="standard"
@@ -57,6 +62,8 @@ export const TaskDrawer = ({
             onChange={(e) => setTitle(e.target.value)}
           />
           <TkTextField
+            id="task-description-text-field"
+            name="description"
             label={mode === "add" ? "Description" : "Edit Description"}
             value={description}
             variant="standard"
@@ -76,17 +83,30 @@ export const TaskDrawer = ({
             }}
           >
             <Typography>Date</Typography>
-            <Tooltip
-              title="This date is automatically set to today"
-              placement="top"
-            >
+            {isDesktop ? (
+              <Tooltip
+                title="This date is automatically set to today"
+                placement="top"
+              >
+                <Typography
+                  sx={{
+                    fontStyle: "italic",
+                    color: "rgba(255, 255, 255, 0.7)",
+                  }}
+                >
+                  {`${date.toDateString()}`}
+                </Typography>
+              </Tooltip>
+            ) : (
               <Typography
                 sx={{
                   fontStyle: "italic",
                   color: "rgba(255, 255, 255, 0.7)",
                 }}
-              >{`${date.toDateString()}`}</Typography>
-            </Tooltip>
+              >
+                {`${date.toDateString()}`}
+              </Typography>
+            )}
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button

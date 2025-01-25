@@ -2,6 +2,8 @@ import { TextFieldProps, TextField } from "@mui/material";
 import { SxProps } from "@mui/material";
 
 export type TkTextFieldProps = TextFieldProps & {
+  id?: string;
+  name?: string;
   sx?: SxProps;
   label?: string;
   variant?: string;
@@ -12,6 +14,8 @@ export type TkTextFieldProps = TextFieldProps & {
 };
 
 export const TkTextField = ({
+  id,
+  name,
   sx,
   label,
   variant,
@@ -23,6 +27,8 @@ export const TkTextField = ({
 }: TkTextFieldProps) => {
   return (
     <TextField
+      id={id}
+      name={name}
       label={label}
       variant={variant}
       placeholder={placeholder}

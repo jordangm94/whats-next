@@ -1,4 +1,10 @@
-import { Box, Checkbox, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import {
   RadioButtonUnchecked,
   RadioButtonChecked,
@@ -22,6 +28,7 @@ export const TaskCard = ({
   onCheckClick,
   onDeleteClick,
 }: TaskCardProps) => {
+  const isDesktop = useMediaQuery("(min-width:1025px)");
   return (
     <Box
       key={id}
@@ -81,25 +88,31 @@ export const TaskCard = ({
           {description}
         </Typography>
       </Box>
-      <Tooltip
-        title="Delete"
-        placement="top"
-        disableInteractive
-        slotProps={{
-          popper: {
-            modifiers: [
-              {
-                name: "offset",
-                options: {
-                  offset: [3, -10],
-                },
+      <>
+        {isDesktop ? (
+          <Tooltip
+            title="Delete"
+            placement="top"
+            disableInteractive
+            slotProps={{
+              popper: {
+                modifiers: [
+                  {
+                    name: "offset",
+                    options: {
+                      offset: [3, -10],
+                    },
+                  },
+                ],
               },
-            ],
-          },
-        }}
-      >
-        <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
-      </Tooltip>
+            }}
+          >
+            <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
+          </Tooltip>
+        ) : (
+          <Delete sx={{ color: "white" }} onClick={onDeleteClick} />
+        )}
+      </>
     </Box>
   );
 };
