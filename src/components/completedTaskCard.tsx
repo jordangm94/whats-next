@@ -35,7 +35,7 @@ export const CompletedTaskCard = ({
       }}
       onClick={onCardClick}
     >
-      <Box sx={{ display: "flex", width: "280px" }}>
+      <Box sx={{ display: "flex", overflow: "hidden" }}>
         <Check sx={{ color: "white", ml: 1 }} />
         <Typography
           sx={{
